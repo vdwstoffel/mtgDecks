@@ -1,5 +1,10 @@
 # MTG Deck
-Do some basic analysis on your Magic deck
+Do some basic analysis on your Magic decks (mainly aimed at commander)
+
+## Can be imported as
+
+    from mtg_deck import MtgDeck
+
 
 ## Supports comparing two decks
 Supply a file path for an old deck and a new deck, then see what the changes are.
@@ -11,10 +16,6 @@ Supported Formats
 or
 
     Card Name
-
-## Can be imported as
-
-    from mtg_deck import MtgDeck
 
 ### Example
 
@@ -35,7 +36,7 @@ Iterates through the deck and find the tokens the deck require
     myDeck = deck.load_deck_from_file("files/deck.txt")
     deck.show_tokens(myDeck)
 
-## To Get A Reccomendation of basic lands to get
+## To Get A Recommendation of basic lands to get
 
     deck = MtgDeck()
 

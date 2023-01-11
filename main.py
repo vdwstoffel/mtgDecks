@@ -5,18 +5,22 @@ if __name__ == "__main__":
 
     deck = MtgDeck()
 
-    # # Load the deck info from txt files
-    # old = deck.load_deck_from_file("files/old.txt")
-    # new = deck.load_deck_from_file("files/new.txt")
-    # deck.compare_decks(old, new, write_to_file=False)
+    # Compare two decks to see what to bring in and what to remove
+    old = deck.load_deck_from_file("files/old.txt")
+    new = deck.load_deck_from_file("files/new.txt")
 
-    # muldrotha = deck.load_deck_from_file("files/test.txt")
-    # deck.show_tokens(muldrotha, write_to_file=True)
-
-    deck_list = deck.load_deck_from_file("files/test.txt")
-    # deck.calculate_basic_lands(deck_list)
-    # deck.analyze_deck(deck_list)
-
-    card = deck.get_card_information("Duergar Hedge-Mage")
-    print(deck.count_mana_symbols_per_card(card))
+    deck.compare_decks(old, new, write_to_file=False)
     
+    # See what tokens the deck requires
+    myDeck = deck.load_deck_from_file("files/deck.txt")
+    deck.show_tokens(myDeck)
+
+    # After building your deck and adding all the non basic lands
+    # Get a recommendation on which and how many basic lands to add
+    deck_list = deck.load_deck_from_file("files/test.txt")
+    deck.calculate_basic_lands(deck_list)
+
+    # Hybrid way to get both tokens and basic lands
+    # This wil only be 1 round opf api calls instead of 2
+    deck_list = deck.load_deck_from_file("files/test.txt")
+    deck.analyze_deck(deck_list)
