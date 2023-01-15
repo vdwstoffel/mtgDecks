@@ -1,6 +1,7 @@
 from columnar import columnar
 from click import style
 import re
+import os
 from mtg_api import MtgApi
 
 
@@ -188,7 +189,7 @@ class MtgDeck(MtgApi):
             mana = card["manaCost"].replace(
                 "}", " ").replace("{", " ").replace("/P", " ").split()
             for symbol in mana:
-                if symbol.isalpha():
+                if symbol.isalpha() and symbol != "X":
                     mana_symbols[symbol] += 1
             return mana_symbols
 
@@ -233,6 +234,9 @@ class MtgDeck(MtgApi):
         lands_req = 100 - len(deck)
 
         def calculate_lands(req, land_per):
+            """
+            Function to calculate how many lands we need based on the percentage 
+            """
             return (land_per / 100) * req
 
         lands_req = {
@@ -242,7 +246,7 @@ class MtgDeck(MtgApi):
             "R": round(calculate_lands(lands_req, per_r)),
             "G": round(calculate_lands(lands_req, per_g))
         }
-        output = "Lands Required:\n"
+        output = "Basic Lands Reccomended:\n"
 
         # Create string to be printed
         if lands_req["W"] > 0:
@@ -258,7 +262,7 @@ class MtgDeck(MtgApi):
 
         print(output)
 
-    def analyze_deck(self,  deck_list: list):
+    def analyze_deck(self,  deck_list: list, save_to_file=None, filename="export"):
         '''
         Does a Basic analysis of the deck.
         Does a mix of some of the functions above but only one api call is required to do all
@@ -324,7 +328,6 @@ class MtgDeck(MtgApi):
             tokens = [["None", "None"]]
         table = columnar(
             tokens, headers=["Card", "Token"], patterns=patterns, justify="c")
-        print(table)
 
         ### MANA ##
         # Total number of each mana symbol
@@ -355,7 +358,7 @@ class MtgDeck(MtgApi):
             "R": round(calculate_lands(lands_req, per_r)),
             "G": round(calculate_lands(lands_req, per_g))
         }
-        output = "Lands Required:\n"
+        output = "Basic Lands Reccomended:\n"
 
         # Create string to be printed
         if lands_req["W"] > 0:
@@ -369,4 +372,12 @@ class MtgDeck(MtgApi):
         if lands_req["G"] > 0:
             output += f"Forests: {lands_req['G']}\n"
 
+        # Save the output to a file
+        if save_to_file:
+            with open(f"{filename}.txt", "w") as f:
+                f.write(table)
+                f.write(output)
+
+        os.system("clear")
+        print(table)
         print(output)
