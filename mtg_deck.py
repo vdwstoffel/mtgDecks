@@ -246,7 +246,7 @@ class MtgDeck(MtgApi):
             "R": round(calculate_lands(lands_req, per_r)),
             "G": round(calculate_lands(lands_req, per_g))
         }
-        output = "Basic Lands Reccomended:\n"
+        output = "Basic Lands Recommended:\n"
 
         # Create string to be printed
         if lands_req["W"] > 0:
@@ -286,6 +286,9 @@ class MtgDeck(MtgApi):
             # Status count for user feedback
             status_count += 1
             print(f"Checking card {status_count}/{len(deck_list)}")
+            # If the card is a basic land ignore it. Checking the first 5 letters should be good enough
+            if card[0:5].lower() in ["plain", "islan", "swamp", "mount", "fores"]:
+                continue
             card_info = self.get_card_information(card)
             card_text = card_info["text"]
             mana_count = (self.count_mana_symbols_per_card(card_info))
@@ -358,7 +361,7 @@ class MtgDeck(MtgApi):
             "R": round(calculate_lands(lands_req, per_r)),
             "G": round(calculate_lands(lands_req, per_g))
         }
-        output = "Basic Lands Reccomended:\n"
+        output = "Basic Lands Recommended:\n"
 
         # Create string to be printed
         if lands_req["W"] > 0:
@@ -376,6 +379,7 @@ class MtgDeck(MtgApi):
         if save_to_file:
             with open(f"{filename}.txt", "w") as f:
                 f.write(table)
+                f.write("\n")
                 f.write(output)
 
         os.system("clear")

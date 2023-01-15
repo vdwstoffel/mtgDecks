@@ -41,12 +41,14 @@ Iterates through the deck and find the tokens the deck require
     deck = MtgDeck()
 
     deck_list = deck.load_deck_from_file("files/test.txt")
-    deck.calculate_basic_lands(deck_list)
+    full_deck = deck.separate_cards(deck_list)
+    deck.calculate_basic_lands(full_deck)
 
 ## You can also get a basic analysis which will combine the tokens and basic lands
 
     deck = MtgDeck()
 
     deck_list = deck.load_deck_from_file("files/test.txt")
-    deck.analyze_deck(deck_list)
+    full_deck = deck.separate_cards(deck_list)
+    deck.calculate_basic_lands(full_deck)
 
