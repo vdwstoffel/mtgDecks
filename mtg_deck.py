@@ -115,6 +115,9 @@ class MtgDeck(MtgApi):
         If none an empty list is returned
         '''
 
+        # Word to exclude from token check. Always compare this to lower()
+        exclude_tokens = ["that token", "the token", "those token"]
+
         creature_token = r'\d+/\d+(\s+([a-zA-Z]+\s+)+)token+.*'
         other_tokens = r'(?!c|r|e|a|t|u|r|e)[a-zA-Z]+ token+'
         emblem_tokens = r'emblem [a-z]+.*'
@@ -130,7 +133,7 @@ class MtgDeck(MtgApi):
 
             # Check for creature tokens
             matched_creature_token = re.search(creature_token, card_text)
-            if matched_creature_token != None:
+            if matched_creature_token != None and matched_creature_token.group(0).lower() not in exclude_tokens:
                 # tokens.append(
                 #     f"{card_info['name']} - {matched_creature_token.group(0)}")
                 tokens.append(
@@ -138,7 +141,7 @@ class MtgDeck(MtgApi):
 
             # Check for non-creature tokens
             matched_other_token = re.search(other_tokens, card_text)
-            if matched_other_token != None:
+            if matched_other_token != None and matched_other_token.group(0).lower() not in exclude_tokens:
                 # tokens.append(
                 #     f"{card_info['name']} - {matched_other_token.group(0)}")
                 tokens.append(
@@ -146,7 +149,7 @@ class MtgDeck(MtgApi):
 
             # Check for emblems
             matched_emblem_token = re.search(emblem_tokens, card_text)
-            if matched_emblem_token != None:
+            if matched_emblem_token != None and matched_emblem_token.group(0).lower() not in exclude_tokens:
                 # tokens.append(
                 #     f"{card_info['name']} - {matched_emblem_token.group(0)}")
                 tokens.append(
@@ -281,6 +284,8 @@ class MtgDeck(MtgApi):
         creature_token = r'\d+/\d+(\s+([a-zA-Z]+\s+)+)token+.*'
         other_tokens = r'(?!c|r|e|a|t|u|r|e)[a-zA-Z]+ token+'
         emblem_tokens = r'emblem [a-z]+.*'
+        # Word to exclude from token check. Always compare this to lower()
+        exclude_tokens = ["that token", "the token", "those token"]
 
         for card in deck_list:
             # Status count for user feedback
@@ -298,7 +303,7 @@ class MtgDeck(MtgApi):
 
             # Check for creature tokens
             matched_creature_token = re.search(creature_token, card_text)
-            if matched_creature_token != None:
+            if matched_creature_token != None and matched_creature_token.group(0).lower() not in exclude_tokens:
                 # tokens.append(
                 #     f"{card_info['name']} - {matched_creature_token.group(0)}")
                 tokens.append(
@@ -306,7 +311,7 @@ class MtgDeck(MtgApi):
 
             # Check for non-creature tokens
             matched_other_token = re.search(other_tokens, card_text)
-            if matched_other_token != None:
+            if matched_other_token != None and matched_other_token.group(0).lower() not in exclude_tokens:
                 # tokens.append(
                 #     f"{card_info['name']} - {matched_other_token.group(0)}")
                 tokens.append(
@@ -314,7 +319,7 @@ class MtgDeck(MtgApi):
 
             # Check for emblems
             matched_emblem_token = re.search(emblem_tokens, card_text)
-            if matched_emblem_token != None:
+            if matched_emblem_token != None and matched_emblem_token.group(0).lower() not in exclude_tokens:
                 # tokens.append(
                 #     f"{card_info['name']} - {matched_emblem_token.group(0)}")
                 tokens.append(
